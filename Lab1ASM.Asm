@@ -2,7 +2,7 @@
 .model flat,STDCALL
 option casemap :none  ;case sensitive
 
-include test.inc
+include Lab1ASM.Inc
 
 .code
 Begin:
@@ -30,6 +30,27 @@ toUpper endp
 main proc
 
 
+invoke GetComputerName,addr GCN, addr bufsize
+
+invoke GetCurrentDirectory, 200, addr GCD
+
+invoke GetDriveType,NULL
+mov  GDT, eax
+;
+mov bufsize, 200
+invoke GetSystemDirectory,addr GSD, addr bufsize 
+
+invoke GetTempPath,200,addr GTP
+
+mov bufsize, 200
+invoke GetUserName,addr GUN, addr bufsize
+
+mov bufsize, 200
+invoke GetWindowsDirectory,addr GWD, addr bufsize
+
+invoke wsprintf,addr Res, addr format, addr GCN, addr GCD, GDT, addr GSD, addr GTP, addr GUN, addr GWD
+invoke toUpper,addr Res
+invoke MessageBox,0,addr Res,0,MB_OK
 	
 main endp
 
